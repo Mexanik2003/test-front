@@ -1,0 +1,37 @@
+.company-item {
+    padding: 0.5rem 0.5rem;
+    border: 1px dashed #ccc;
+    display: flex;
+
+    align-items: center;
+    max-width: 30rem;
+
+    .company-item__name {
+        margin: 0;
+    }
+
+    .company-item__logo {
+        max-width: 5rem;
+        max-height: 5rem;
+        padding: 0.5rem;
+        object-fit: contain;
+    }
+
+    .company-item-descr {
+        padding: 0.5rem;
+        width: 100%;
+    }
+
+    .company-item-text {
+        display: flex;
+        flex-direction: column;
+        padding-top: 0.5rem;
+    }
+
+    .company-item__industry {
+        margin: 0;
+    }
+    .company-item__type {
+        margin: 0;
+    }
+}
