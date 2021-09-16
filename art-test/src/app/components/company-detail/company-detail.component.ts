@@ -14,7 +14,6 @@ export class CompanyDetailComponent implements OnInit {
   private routeSub: Subscription;
 
   constructor(private lss: ListServiceService, private route: ActivatedRoute) {
-    //this.card = this.lss.companies;
     this.routeSub = new Subscription;
    }
 

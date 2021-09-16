@@ -14,11 +14,10 @@ import {Component, Input, OnInit} from '@angular/core';
 
 export class CompanyItemComponent {
 
-@Input() card;
+    @Input() card;
 
-ngOnInit() {
-    //console.log(this.card)
-}
+    ngOnInit() {
+    }
 
 
 }

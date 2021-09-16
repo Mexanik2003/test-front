@@ -28,21 +28,17 @@ export class ListServiceService {
             'Content-Type': "application/json"
         },
     })
-    let commits = await result.json(); // читаем ответ в формате JSON
+    let commits = await result.json();
     return commits;
   }
 
   async getCompaniesList(size = 100) {
       if (size) this.listFilterParams.size = size;
-      //console.log(listFilterParams)
       return this._fetchList(size);
   }
 
   getSortedAndUniqueList(types: String[]) {
     let uniqueArray = Array.from(new Set(types));
-    // let uniqueArray = types.filter(function(item, pos) {
-    //   return types.indexOf(item) == pos;
-    // })
     return uniqueArray.sort();
   }
 

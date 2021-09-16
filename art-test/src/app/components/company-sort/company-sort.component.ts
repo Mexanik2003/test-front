@@ -8,15 +8,11 @@ import { ListServiceService } from 'src/app/services/list-service.service';
 })
 export class CompanySortComponent implements OnInit {
 
-  //@Input() setSortingAttr;
-
   @Output() sortChanged: EventEmitter<any> = new EventEmitter<any>()
 
   constructor(private lss: ListServiceService) { }
-  
 
   onOptionsSelected(value: string) {
-    //this.setSortingAttr(value);
     this.sortChanged.emit(value)
   }
 

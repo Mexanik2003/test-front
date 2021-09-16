@@ -22,10 +22,6 @@ export class CompanyYandexMapComponent implements OnInit {
 
     const objectManager = new ymaps.ObjectManager(objectManagerOptions);
 
-    /**
-     * To set options for single objects and clusters,
-     * we refer to child collections of ObjectManager.
-     */
     objectManager.objects.options.set('preset', 'islands#greenDotIcon');
     objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
     event.target.geoObjects.add(objectManager);

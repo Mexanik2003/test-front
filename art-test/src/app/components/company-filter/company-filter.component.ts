@@ -42,7 +42,6 @@ export class CompanyFilterComponent implements OnInit {
 
   onTypeOptionsSelected() {
     this.typeFilterChanged.emit(this.typeControl.value)
-    // console.log(this.lss.listFilterParams)
   }
 
 
