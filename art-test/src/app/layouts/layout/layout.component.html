@@ -3,9 +3,6 @@
       <a class="layout__link" [routerLink]="['']">Список</a>
       <a class="layout__link"  [routerLink]="['map']">На карте</a>
     </nav>
-    <ang-company-sort 
-      (sortChanged)="sortChangeHandler($event)"
-    ></ang-company-sort>
     <router-outlet></router-outlet>
   </div>
 

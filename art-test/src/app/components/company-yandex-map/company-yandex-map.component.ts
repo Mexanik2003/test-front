@@ -64,7 +64,7 @@ export class CompanyYandexMapComponent implements OnInit {
           id: point.id,
           geometry: {
             type: 'Point',
-            coordinates: [point.longitude,point.latitude],
+            coordinates: [point.latitude,point.longitude],
           },
           properties: {
             hintContent: `${point.business_name}`,

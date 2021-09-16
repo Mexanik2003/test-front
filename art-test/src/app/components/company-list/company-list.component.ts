@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ListServiceService } from 'src/app/services/list-service.service';
+import {fromEvent} from 'rxjs';
 
 @Component({
   selector: 'ang-company-list',
@@ -7,7 +8,6 @@ import { ListServiceService } from 'src/app/services/list-service.service';
   styleUrls: ['./company-list.component.scss']
 })
 export class CompanyListComponent implements OnInit {
-  //svc = new ListServiceService
 
   companies: {
     bs_company_statement: String
@@ -66,12 +66,10 @@ export class CompanyListComponent implements OnInit {
       this.lss.listFilterParams.sort.columnName = value;
       this.lss.listFilterParams.sort.direction = 'ASC';
     }
-    //console.log(`New sort ${this.lss.listFilterParams.sort}`);
     this.updateView();
   }
 
   nameFilterChangeHandler(value) {
-    //console.log(value)
     this.lss.listFilterParams.filter.business_name = value;
     this.updateView();
     if (value) {
@@ -84,7 +82,6 @@ export class CompanyListComponent implements OnInit {
   }
 
   industryFilterChangeHandler(value) {
-    //console.log(value)
     this.lss.listFilterParams.filter.industry = value;
     this.updateView();
     if (value) {
@@ -106,36 +103,41 @@ export class CompanyListComponent implements OnInit {
   }
 
   updateView() {
-    //console.log(this.companies);
-    // Sorting list
     this.filteredCompanies = this.companies;
-    //console.log(this.companies);
-
     this.filteredCompanies = this.lss.setFilterAndSort(this.filteredCompanies);
+  }
 
+  applyFilters() {
+        this.filteredCompanies = this.lss.setFilterAndSort(this.filteredCompanies);
+        this.companyTypes = this.lss.getSortedAndUniqueList(this.companies.map(item => item.type))
+        this.companyIndustries = this.lss.getSortedAndUniqueList(this.companies.map(item => item.industry))
 
   }
 
-  
+  scroll(e) {
+    //let scrollPosition = e.target.scrollingElement.scrollTop/e.target.scrollingElement.offsetHeight
+    //if (scrollPosition>0.5) {console.log('нижняя половина страницы')}
+  }
 
   ngOnInit(): void {
+
+    window.addEventListener('scroll', this.scroll, true)
+
     if (!this.lss.companies) {
       const fetch = this.lss.getCompaniesList(this.lss.listFilterParams.size)
       .then ((results) => {
         this.companies = this.filteredCompanies = this.lss.companies = results;
-        this.filteredCompanies = this.lss.setFilterAndSort(this.filteredCompanies);
-
-        this.companyTypes = this.lss.getSortedAndUniqueList(this.companies.map(item => item.type))
-
-        this.companyIndustries = this.lss.getSortedAndUniqueList(this.companies.map(item => item.industry))
+        this.applyFilters();
       })
     } else {
       this.companies = this.filteredCompanies = this.lss.companies;
-      this.companyTypes = this.lss.getSortedAndUniqueList(this.companies.map(item => item.type))
-      this.filteredCompanies = this.lss.setFilterAndSort(this.filteredCompanies);
-      this.companyIndustries = this.lss.getSortedAndUniqueList(this.companies.map(item => item.industry))
+      this.applyFilters();
     }
 
   }
+
+  ngOnDestroy() {
+    window.removeEventListener('scroll', this.scroll, true);
+}
 
 }
