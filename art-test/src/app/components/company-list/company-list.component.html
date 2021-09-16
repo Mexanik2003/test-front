@@ -1,7 +1,17 @@
 <main>
     <div class="optionstab">
-        <ang-company-sort></ang-company-sort>
-        <ang-company-filter></ang-company-filter>
+        <ang-company-sort 
+            (sortChanged)="sortChangeHandler($event)"
+        ></ang-company-sort>
+        <ang-company-filter
+            [companyTypes] = "companyTypes"
+            [companyIndustries] = "companyIndustries"
+            (nameFilterChanged)="nameFilterChangeHandler($event)"
+            (industryFilterChanged)="industryFilterChangeHandler($event)"
+            (typeFilterChanged)="typeFilterChangeHandler($event)"
+        ></ang-company-filter>
     </div>
-    <ang-company-item></ang-company-item>
+    <div>
+    <ang-company-item *ngFor="let item of filteredCompanies" [card]="item"></ang-company-item>
+    </div>
 </main>

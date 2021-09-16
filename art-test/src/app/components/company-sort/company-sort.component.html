@@ -1,4 +1,7 @@
-<select>
+<select 
+    #mySelect
+    (change)='onOptionsSelected(mySelect.value)'>
+    <option value="" disabled selected>Сортировка</option>
     <option value="business_name">Наименование</option>
     <option value="industry">Вид деятельности</option>
     <option value="type">Тип</option>

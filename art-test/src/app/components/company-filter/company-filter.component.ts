@@ -6,7 +6,9 @@
 
 
 
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ListServiceService } from 'src/app/services/list-service.service';
 
 @Component({
   selector: 'ang-company-filter',
@@ -15,9 +17,41 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CompanyFilterComponent implements OnInit {
 
-  constructor() { }
+  nameControl = new FormControl();
+  industryControl = new FormControl('0');
+  typeControl = new FormControl('0');
+
+
+  @Input() companyTypes;
+  @Input() companyIndustries;
+
+  @Output() industryFilterChanged: EventEmitter<any> = new EventEmitter<any>()
+  @Output() typeFilterChanged: EventEmitter<any> = new EventEmitter<any>()
+  @Output() nameFilterChanged: EventEmitter<any> = new EventEmitter<any>()
+
+
+  constructor(private lss: ListServiceService) { 
+  }
+  
+  onNameInputChanged(value: string) {
+    this.nameFilterChanged.emit(value)
+  }
+  
+  onIndustryOptionsSelected(value: string) {
+    console.log(value)
+    this.industryFilterChanged.emit(value)
+  }
+
+  onTypeOptionsSelected(value: string) {
+    //this.setSortingAttr(value);
+    this.typeFilterChanged.emit(value)
+  }
+
 
   ngOnInit(): void {
+    this.nameControl.valueChanges.subscribe(this.onNameInputChanged)
+    this.industryControl.valueChanges.subscribe(this.onIndustryOptionsSelected)
+    this.typeControl.valueChanges.subscribe(this.onTypeOptionsSelected)
   }
 
 }

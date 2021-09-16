@@ -1,4 +1,18 @@
-<input type="text" placeholder="Наименование"/>
-<select>Виды деятельности</select>
-<select>Типы</select>
+<input 
+    #business_nameInput
+    type="text" placeholder="Наименование"
+    [formControl]="nameControl"
+/>
+<select    
+    [formControl]="industryControl"
+>
+    <option value="0" selected>--- Фильтр по видам ---</option>
+    <option *ngFor="let item of companyIndustries" value="{{item}}">{{ item }}</option>
+</select>
+<select
+    [formControl]="typeControl"
+>
+    <option value="0" selected>--- Фильтр по типам ---</option>
+    <option *ngFor="let item of companyTypes" value="{{item}}">{{ item }}</option>
+</select>
 

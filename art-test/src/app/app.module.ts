@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { AppComponent } from './components/app/app.component';
 import { CompanyListComponent } from './components/company-list/company-list.component';
@@ -11,6 +12,8 @@ import { CompanySortComponent } from './components/company-sort/company-sort.com
 import { CompanyFilterComponent } from './components/company-filter/company-filter.component';
 import { LayoutComponent } from './layouts/layout/layout.component'
 
+import { ListServiceService } from './services/list-service.service';
+
 
 const routes: Routes = [  
   { 
@@ -20,26 +23,18 @@ const routes: Routes = [
       { 
         path: '', 
         component: CompanyListComponent 
-      }
-    ]
-  },
-  { 
-    path: 'detail', 
-    component: LayoutComponent, 
-    children: [
+      },
       { 
-        path: '', 
+        path: 'detail', 
         component: CompanyDetailComponent 
-      }
-    ]
-  },
-  { 
-    path: 'map', 
-    component: LayoutComponent, 
-    children: [
+      },
       { 
-        path: '', 
+        path: 'map', 
         component: CompanyYandexMapComponent 
+      },
+      { 
+        path: '**', 
+        component: CompanyListComponent 
       }
     ]
   },
@@ -60,9 +55,11 @@ const routes: Routes = [
 ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [ListServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

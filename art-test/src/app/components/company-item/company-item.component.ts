@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
     selector: 'ang-company-item',
@@ -6,4 +6,14 @@ import {Component} from '@angular/core';
     styleUrls: ['./company-item.component.scss']
 })
 
-export class CompanyItemComponent {}
+
+export class CompanyItemComponent {
+
+@Input() card;
+
+ngOnInit() {
+    //console.log(this.card)
+}
+
+
+}

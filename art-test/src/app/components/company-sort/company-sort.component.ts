@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { ListServiceService } from 'src/app/services/list-service.service';
 
 @Component({
   selector: 'ang-company-sort',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CompanySortComponent implements OnInit {
 
-  constructor() { }
+  //@Input() setSortingAttr;
+
+  @Output() sortChanged: EventEmitter<any> = new EventEmitter<any>()
+
+  constructor(private lss: ListServiceService) { }
+  
+
+  onOptionsSelected(value: string) {
+    //this.setSortingAttr(value);
+    this.sortChanged.emit(value)
+  }
 
   ngOnInit(): void {
-  }
+}
 
 }
