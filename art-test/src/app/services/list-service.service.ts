@@ -5,6 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class ListServiceService {
 
+  companies;
+
   listFilterParams = {
     size: 100,
     filter: {
@@ -42,6 +44,41 @@ export class ListServiceService {
     //   return types.indexOf(item) == pos;
     // })
     return uniqueArray.sort();
+  }
+
+  setFilterAndSort(companies) {
+
+    const sortAttr = this.listFilterParams.sort.columnName;
+    const sortDir = this.listFilterParams.sort.direction;
+    const sortMult = sortDir === 'ASC' ? 1 : -1;
+    companies.sort((prev, next) => {
+      if ( prev[sortAttr] < next[sortAttr] ) {
+        return -1*sortMult;
+      } else if ( prev[sortAttr] > next[sortAttr] ) {
+        return 1*sortMult;
+      } else {
+        return 0;
+      }
+    });
+
+    // Filter by business_name
+    if (this.listFilterParams.filter.business_name) {
+      companies = companies.filter(item => item.business_name.toLowerCase().indexOf(this.listFilterParams.filter.business_name.toLowerCase()) > -1)
+    }
+
+
+    // Filter by industry
+    if (this.listFilterParams.filter.industry) {
+      companies = companies.filter(item => item.industry === this.listFilterParams.filter.industry)
+    }
+
+    // Filter by type
+    if (this.listFilterParams.filter.type) {
+      companies = companies.filter(item => item.type === this.listFilterParams.filter.type)
+    }
+
+    return companies;
+    
   }
 
   constructor() { }

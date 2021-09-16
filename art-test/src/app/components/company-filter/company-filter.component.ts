@@ -18,40 +18,38 @@ import { ListServiceService } from 'src/app/services/list-service.service';
 export class CompanyFilterComponent implements OnInit {
 
   nameControl = new FormControl();
-  industryControl = new FormControl('0');
-  typeControl = new FormControl('0');
+  industryControl = new FormControl('');
+  typeControl = new FormControl('');
 
 
   @Input() companyTypes;
   @Input() companyIndustries;
 
+  @Output() nameFilterChanged: EventEmitter<any> = new EventEmitter<any>()
   @Output() industryFilterChanged: EventEmitter<any> = new EventEmitter<any>()
   @Output() typeFilterChanged: EventEmitter<any> = new EventEmitter<any>()
-  @Output() nameFilterChanged: EventEmitter<any> = new EventEmitter<any>()
-
 
   constructor(private lss: ListServiceService) { 
   }
   
-  onNameInputChanged(value: string) {
-    this.nameFilterChanged.emit(value)
+  onNameInputChanged(value) {
+    this.nameFilterChanged.emit(this.nameControl.value)
   }
   
-  onIndustryOptionsSelected(value: string) {
-    console.log(value)
-    this.industryFilterChanged.emit(value)
+  onIndustryOptionsSelected() {
+    this.industryFilterChanged.emit(this.industryControl.value)
   }
 
-  onTypeOptionsSelected(value: string) {
-    //this.setSortingAttr(value);
-    this.typeFilterChanged.emit(value)
+  onTypeOptionsSelected() {
+    this.typeFilterChanged.emit(this.typeControl.value)
+    // console.log(this.lss.listFilterParams)
   }
 
 
   ngOnInit(): void {
-    this.nameControl.valueChanges.subscribe(this.onNameInputChanged)
-    this.industryControl.valueChanges.subscribe(this.onIndustryOptionsSelected)
-    this.typeControl.valueChanges.subscribe(this.onTypeOptionsSelected)
+    this.nameControl.valueChanges.subscribe(this.onNameInputChanged.bind(this))
+    this.industryControl.valueChanges.subscribe(this.onIndustryOptionsSelected.bind(this))
+    this.typeControl.valueChanges.subscribe(this.onTypeOptionsSelected.bind(this))
   }
 
 }

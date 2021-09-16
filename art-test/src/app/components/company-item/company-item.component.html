@@ -1,4 +1,4 @@
-<div class="company-item">
+<a class="company-item" [routerLink]="['detail', this.card.id]" [fragment]="this.card">
     <img class="company-item__logo" alt="logo" src="{{ card.logo }}" />
     <div class="company-item-descr">
         <h2 class="company-item__name">{{ card.business_name }}</h2>
@@ -7,4 +7,4 @@
             <p class="company-item__type">{{ card.type }}</p>    
         </div>
     </div>
-</div>
+</a>

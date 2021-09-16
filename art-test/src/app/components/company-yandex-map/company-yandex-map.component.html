@@ -1,1 +1,9 @@
 <p>company-yandex-map works!</p>
+<div class="map-container">
+    <ya-map
+      [center]="[55.76, 37.64]"
+      (ready)="onMapReady($event)"
+    ></ya-map>
+  </div>
+  
+  <button *ngIf="map" (click)="deleteMap()">Delete Map</button>

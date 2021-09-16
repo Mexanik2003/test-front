@@ -1,1 +1,12 @@
-<p>company-detail works!</p>
+<div>
+    <img class="detail-item__logo" alt="logo" src="{{ this.card.logo }}" />
+    <div class="detail-item-descr">
+        <h2 class="detail-item__name">{{ this.card.business_name }}</h2>
+        <div class="detail-item-text">
+            <p class="detail-item__industry">{{ this.card.industry }}</p>
+            <p class="detail-item__type">{{ this.card.catch_phrase }}</p>    
+            <p class="detail-item__type">{{ this.card.phone_number }}</p>    
+            <p class="detail-item__type">{{ this.card.full_address }}</p>    
+        </div>
+    </div>
+</div>

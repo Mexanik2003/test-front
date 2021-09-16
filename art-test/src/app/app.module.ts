@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { AngularYandexMapsModule } from 'angular8-yandex-maps';
+
 
 import { AppComponent } from './components/app/app.component';
 import { CompanyListComponent } from './components/company-list/company-list.component';
@@ -25,8 +27,9 @@ const routes: Routes = [
         component: CompanyListComponent 
       },
       { 
-        path: 'detail', 
-        component: CompanyDetailComponent 
+        path: 'detail/:id', 
+        component: CompanyDetailComponent,
+        data: {}
       },
       { 
         path: 'map', 
@@ -56,6 +59,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
+    AngularYandexMapsModule,
     FormsModule,
     ReactiveFormsModule
   ],

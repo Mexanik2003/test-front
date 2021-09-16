@@ -74,6 +74,13 @@ export class CompanyListComponent implements OnInit {
     //console.log(value)
     this.lss.listFilterParams.filter.business_name = value;
     this.updateView();
+    if (value) {
+      this.companyIndustries = this.lss.getSortedAndUniqueList(this.filteredCompanies.map(item => item.industry))
+      this.companyTypes = this.lss.getSortedAndUniqueList(this.filteredCompanies.map(item => item.type))
+    } else {
+      this.companyTypes = this.lss.getSortedAndUniqueList(this.companies.map(item => item.type))
+      this.companyIndustries = this.lss.getSortedAndUniqueList(this.companies.map(item => item.industry))
+    }
   }
 
   industryFilterChangeHandler(value) {
@@ -81,9 +88,9 @@ export class CompanyListComponent implements OnInit {
     this.lss.listFilterParams.filter.industry = value;
     this.updateView();
     if (value) {
-      this.companyTypes = this.lss.getSortedAndUniqueList(this.filteredCompanies.map(item => item.industry))
+      this.companyTypes = this.lss.getSortedAndUniqueList(this.filteredCompanies.map(item => item.type))
     } else {
-      this.companyTypes = this.lss.getSortedAndUniqueList(this.companies.map(item => item.industry))
+      this.companyTypes = this.lss.getSortedAndUniqueList(this.companies.map(item => item.type))
     }
   }
 
@@ -92,9 +99,9 @@ export class CompanyListComponent implements OnInit {
     this.lss.listFilterParams.filter.type = value;
     this.updateView();
     if (value) {
-      this.companyIndustries = this.lss.getSortedAndUniqueList(this.filteredCompanies.map(item => item.type))
+      this.companyIndustries = this.lss.getSortedAndUniqueList(this.filteredCompanies.map(item => item.industry))
     } else {
-      this.companyIndustries = this.lss.getSortedAndUniqueList(this.companies.map(item => item.type))
+      this.companyIndustries = this.lss.getSortedAndUniqueList(this.companies.map(item => item.industry))
     }
   }
 
@@ -102,31 +109,9 @@ export class CompanyListComponent implements OnInit {
     //console.log(this.companies);
     // Sorting list
     this.filteredCompanies = this.companies;
-    const sortAttr = this.lss.listFilterParams.sort.columnName;
-    const sortDir = this.lss.listFilterParams.sort.direction;
-    const sortMult = sortDir === 'ASC' ? 1 : -1;
-    this.filteredCompanies.sort((prev, next) => {
-      if ( prev[sortAttr] < next[sortAttr] ) {
-        return -1*sortMult;
-      } else if ( prev[sortAttr] > next[sortAttr] ) {
-        return 1*sortMult;
-      } else {
-        return 0;
-      }
-    });
     //console.log(this.companies);
 
-    // Filter by business_name
-
-    // Filter by industry
-    if (this.lss.listFilterParams.filter.industry) {
-      this.filteredCompanies = this.filteredCompanies.filter(item => item.industry === this.lss.listFilterParams.filter.industry)
-    }
-
-    // Filter by type
-    if (this.lss.listFilterParams.filter.type) {
-      this.filteredCompanies = this.filteredCompanies.filter(item => item.type === this.lss.listFilterParams.filter.type)
-    }
+    this.filteredCompanies = this.lss.setFilterAndSort(this.filteredCompanies);
 
 
   }
@@ -134,18 +119,22 @@ export class CompanyListComponent implements OnInit {
   
 
   ngOnInit(): void {
-    const fetch = this.lss.getCompaniesList(this.lss.listFilterParams.size)
-    .then ((results) => {
-      this.companies = this.filteredCompanies = results;
-      this.updateView();
+    if (!this.lss.companies) {
+      const fetch = this.lss.getCompaniesList(this.lss.listFilterParams.size)
+      .then ((results) => {
+        this.companies = this.filteredCompanies = this.lss.companies = results;
+        this.filteredCompanies = this.lss.setFilterAndSort(this.filteredCompanies);
 
+        this.companyTypes = this.lss.getSortedAndUniqueList(this.companies.map(item => item.type))
+
+        this.companyIndustries = this.lss.getSortedAndUniqueList(this.companies.map(item => item.industry))
+      })
+    } else {
+      this.companies = this.filteredCompanies = this.lss.companies;
       this.companyTypes = this.lss.getSortedAndUniqueList(this.companies.map(item => item.type))
-
+      this.filteredCompanies = this.lss.setFilterAndSort(this.filteredCompanies);
       this.companyIndustries = this.lss.getSortedAndUniqueList(this.companies.map(item => item.industry))
-
-      //console.log(this.companyIndustries)
-      //console.log(this.companyTypes)
-  })
+    }
 
   }
 
