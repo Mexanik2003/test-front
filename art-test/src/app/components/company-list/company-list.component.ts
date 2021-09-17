@@ -108,8 +108,8 @@ export class CompanyListComponent implements OnInit {
     this.filteredCompanies = this.lss.setFilterAndSort(this.filteredCompanies);
   }
 
-  applyFilters() {
-        this.filteredCompanies = this.lss.setFilterAndSort(this.filteredCompanies);
+  applyFilters(noSort = false) {
+        this.filteredCompanies = this.lss.setFilterAndSort(this.filteredCompanies,noSort);
         this.companyTypes = this.lss.getSortedAndUniqueList(this.companies.map(item => item.type))
         this.companyIndustries = this.lss.getSortedAndUniqueList(this.companies.map(item => item.industry))
 
@@ -123,17 +123,18 @@ export class CompanyListComponent implements OnInit {
         this.blockLoad = true
         const fetch = this.lss.getCompaniesList(30)
         .then ((results) => {
-          this.filteredCompanies.splice(0, 30)
+          //this.filteredCompanies.splice(0, 30)
           results.forEach(element => {
             this.filteredCompanies.push(element);
+            this.companies.push(element);
           });
-          //this.applyFilters();
+          this.applyFilters(true);
         })
         .finally(() => {
           this.blockLoad = false;
         })
       }
-      console.log('нижняя половина страницы')
+      //console.log('нижняя половина страницы')
     }
   }
 

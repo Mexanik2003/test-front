@@ -42,20 +42,22 @@ export class ListServiceService {
     return uniqueArray.sort();
   }
 
-  setFilterAndSort(companies) {
+  setFilterAndSort(companies, noSort = false) {
 
     const sortAttr = this.listFilterParams.sort.columnName;
     const sortDir = this.listFilterParams.sort.direction;
     const sortMult = sortDir === 'ASC' ? 1 : -1;
-    companies.sort((prev, next) => {
-      if ( prev[sortAttr] < next[sortAttr] ) {
-        return -1*sortMult;
-      } else if ( prev[sortAttr] > next[sortAttr] ) {
-        return 1*sortMult;
-      } else {
-        return 0;
-      }
-    });
+    if (!noSort) {
+      companies.sort((prev, next) => {
+        if ( prev[sortAttr] < next[sortAttr] ) {
+          return -1*sortMult;
+        } else if ( prev[sortAttr] > next[sortAttr] ) {
+          return 1*sortMult;
+        } else {
+          return 0;
+        }
+      });
+    }
 
     // Filter by business_name
     if (this.listFilterParams.filter.business_name) {
