@@ -46,6 +46,9 @@ export class CompanyFilterComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.nameControl.setValue(this.lss.listFilterParams.filter.business_name);
+    this.industryControl.setValue(this.lss.listFilterParams.filter.industry);
+    this.typeControl.setValue(this.lss.listFilterParams.filter.type);
     this.nameControl.valueChanges.subscribe(this.onNameInputChanged.bind(this))
     this.industryControl.valueChanges.subscribe(this.onIndustryOptionsSelected.bind(this))
     this.typeControl.valueChanges.subscribe(this.onTypeOptionsSelected.bind(this))

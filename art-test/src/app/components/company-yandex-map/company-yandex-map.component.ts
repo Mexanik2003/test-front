@@ -10,8 +10,16 @@ import { YaReadyEvent } from 'angular8-yandex-maps';
 export class CompanyYandexMapComponent implements OnInit {
   map: any;
   filteredCompanies: any;
+  mapAttrs = {
+    center: {
+      lat: 0,
+      lon: 0
+    },
+    zoom: 1
+  };
 
   onMapReady(event: YaReadyEvent<ymaps.Map>): void {
+
     const objectManagerOptions: ymaps.IObjectManagerOptions = {
       // Setting an option to make placemarks start clusterizing.
       clusterize: true,
@@ -76,6 +84,15 @@ export class CompanyYandexMapComponent implements OnInit {
 
   deleteMap(): void {
     this.map.destroy();
+  }
+
+  focusOnMap(lat, lon) {
+    this.mapAttrs.center = {
+      lat: lat,
+      lon: lon
+    };
+    this.mapAttrs.zoom = 5;
+
   }
 
   constructor(private lss: ListServiceService) { 

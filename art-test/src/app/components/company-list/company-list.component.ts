@@ -49,6 +49,7 @@ export class CompanyListComponent implements OnInit {
 
   companyIndustries: String[] | undefined;
   companyTypes: String[] | undefined;
+  blockLoad = false;
 
   constructor(private lss: ListServiceService) {
     
@@ -115,13 +116,32 @@ export class CompanyListComponent implements OnInit {
   }
 
   scroll(e) {
-    //let scrollPosition = e.target.scrollingElement.scrollTop/e.target.scrollingElement.offsetHeight
-    //if (scrollPosition>0.5) {console.log('нижняя половина страницы')}
+    let scrollPosition = (e.target.scrollingElement.scrollTop+e.target.scrollingElement.clientHeight)/e.target.scrollingElement.offsetHeight
+    if (scrollPosition>0.8) {
+      //console.log(this.blockLoad)
+      if (!this.blockLoad) {
+        this.blockLoad = true
+        const fetch = this.lss.getCompaniesList(30)
+        .then ((results) => {
+          this.filteredCompanies.splice(0, 30)
+          results.forEach(element => {
+            this.filteredCompanies.push(element);
+          });
+          //this.applyFilters();
+        })
+        .finally(() => {
+          this.blockLoad = false;
+        })
+      }
+      console.log('нижняя половина страницы')
+    }
   }
+
+  scrollListener = this.scroll.bind(this);
 
   ngOnInit(): void {
 
-    window.addEventListener('scroll', this.scroll, true)
+    window.addEventListener('scroll', this.scrollListener, true)
 
     if (!this.lss.companies) {
       const fetch = this.lss.getCompaniesList(this.lss.listFilterParams.size)
@@ -137,7 +157,7 @@ export class CompanyListComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    window.removeEventListener('scroll', this.scroll, true);
+    window.removeEventListener('scroll', this.scrollListener, true);
 }
 
 }

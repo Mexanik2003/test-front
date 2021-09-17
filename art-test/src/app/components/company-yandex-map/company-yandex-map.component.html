@@ -1,6 +1,24 @@
 <div class="map-container">
-  <ya-map
-    [zoom]="2"
-    (ready)="onMapReady($event)"
-  ></ya-map>
+  <div class="yandex-map">
+    <ya-map
+      [center]="[this.mapAttrs.center.lat,this.mapAttrs.center.lon]"
+      [zoom]="this.mapAttrs.zoom"
+      (ready)="onMapReady($event)"
+    ></ya-map>
+  </div>
+  <cdk-virtual-scroll-viewport  class="maplist" itemSize="5">
+    <a *ngFor="let item of filteredCompanies" 
+      class="maplist-item" 
+      (click)="focusOnMap(item.latitude, item.longitude)"
+    >
+      <img class="maplist-item__logo" alt="logo" src="{{ item.logo }}" />
+      <div class="maplist-item-descr">
+          <h2 class="maplist-item__name">{{ item.business_name }}</h2>
+          <div class="maplist-item-text">
+              <p class="maplist-item__industry">{{ item.industry }}</p>
+              <p class="maplist-item__type">{{ item.type }}</p>    
+          </div>
+      </div>
+    </a>
+  </cdk-virtual-scroll-viewport>
 </div>
